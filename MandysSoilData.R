@@ -57,16 +57,16 @@ setwd("C:\\Felipe\\Students Projects\\Mandy's Project\\RCode\\MandysSoilData") ;
 #                           Program to start exploring the files 
 ###############################################################################################################
 
-list.files(".\\20201216_polysil_correct_soils\\20201216_polysil_correct_soils\\soils\\CyclesSoilsFromSSURGO_20201208\\CyclesSoilsFromSSURGO_20201208") ;
+list.files("..\\20201216_polysil_correct_soils\\20201216_polysil_correct_soils\\soils\\CyclesSoilsFromSSURGO_20201208\\CyclesSoilsFromSSURGO_20201208") ;
 
-file.info(".\\20201216_polysil_correct_soils\\20201216_polysil_correct_soils\\soils\\CyclesSoilsFromSSURGO_20201208\\CyclesSoilsFromSSURGO_20201208\\52279.soil") ;
+file.info("..\\20201216_polysil_correct_soils\\20201216_polysil_correct_soils\\soils\\CyclesSoilsFromSSURGO_20201208\\CyclesSoilsFromSSURGO_20201208\\52279.soil") ;
 
-file.size(".\\20201216_polysil_correct_soils\\20201216_polysil_correct_soils\\soils\\CyclesSoilsFromSSURGO_20201208\\CyclesSoilsFromSSURGO_20201208\\52279.soil") ;
+file.size("..\\20201216_polysil_correct_soils\\20201216_polysil_correct_soils\\soils\\CyclesSoilsFromSSURGO_20201208\\CyclesSoilsFromSSURGO_20201208\\52279.soil") ;
 
 
 ##### Check the files with good soils ####
 
-file.size(".\\20201216_polysil_correct_soils\\20201216_polysil_correct_soils\\soils\\CyclesSoilsFromSSURGO_20201208\\CyclesSoilsFromSSURGO_20201208\\52279.soil") ;
+file.size("..\\20201216_polysil_correct_soils\\20201216_polysil_correct_soils\\soils\\CyclesSoilsFromSSURGO_20201208\\CyclesSoilsFromSSURGO_20201208\\52279.soil") ;
 
 ##### The file 52279.soil appears to be ok and the size is 569 bytes
 
@@ -90,7 +90,7 @@ file.size(".\\20201216_polysil_correct_soils\\20201216_polysil_correct_soils\\so
 
 ##### Check the files with bad soils or missing 
 
-file.size(".\\20201216_polysil_correct_soils\\20201216_polysil_correct_soils\\soils\\12_15_20_Missing_Soils\\59076.soil") ;
+file.size("..\\20201216_polysil_correct_soils\\20201216_polysil_correct_soils\\soils\\12_15_20_Missing_Soils\\59076.soil") ;
 
 ##### The file 59076.soil is listed in the missing soils directory and the size is 1016 bytes
 
@@ -122,7 +122,7 @@ file.size(".\\20201216_polysil_correct_soils\\20201216_polysil_correct_soils\\so
 
 ###### List the file names  in the CyclesSoilsFromSSURGO_20201208
 
-CyclesSoilsFromSSURGO_20201208.files<-list.files(".\\20201216_polysil_correct_soils\\20201216_polysil_correct_soils\\soils\\CyclesSoilsFromSSURGO_20201208\\CyclesSoilsFromSSURGO_20201208") ;
+CyclesSoilsFromSSURGO_20201208.files<-list.files("..\\20201216_polysil_correct_soils\\20201216_polysil_correct_soils\\soils\\CyclesSoilsFromSSURGO_20201208\\CyclesSoilsFromSSURGO_20201208") ;
 
 ### Check it 
 
@@ -131,7 +131,7 @@ View(CyclesSoilsFromSSURGO_20201208.files) ;
 
 ###### List the file names  in the 12_15_20_Missing_Soils directory
 
-Missing_Soils_12_15_20.files<-list.files(".\\20201216_polysil_correct_soils\\20201216_polysil_correct_soils\\soils\\12_15_20_Missing_Soils") ;
+Missing_Soils_12_15_20.files<-list.files("..\\20201216_polysil_correct_soils\\20201216_polysil_correct_soils\\soils\\12_15_20_Missing_Soils") ;
 
 ### Check it 
 
@@ -149,7 +149,7 @@ Missing_Soils_12_15_20.files %in% CyclesSoilsFromSSURGO_20201208.files
 
 ### First we need to make the paths (the complete name with the directories in which the file is located) for each file in the list. For that we paste the name on the list to the directory
 
-CyclesSoilsFromSSURGO_20201208.files.Paths<-paste0(".\\20201216_polysil_correct_soils\\20201216_polysil_correct_soils\\soils\\CyclesSoilsFromSSURGO_20201208\\CyclesSoilsFromSSURGO_20201208\\", CyclesSoilsFromSSURGO_20201208.files) ;
+CyclesSoilsFromSSURGO_20201208.files.Paths<-paste0("..\\20201216_polysil_correct_soils\\20201216_polysil_correct_soils\\soils\\CyclesSoilsFromSSURGO_20201208\\CyclesSoilsFromSSURGO_20201208\\", CyclesSoilsFromSSURGO_20201208.files) ;
 
 # check it
 
@@ -264,5 +264,13 @@ Soils.F.Size[Soils.F.Size$F.Size>700,]
 # 
 
 # seems to be ok!
+
+###############################################################################################################################################
+#
+#                                    Changing to explore the multI mode Cycles files
+#
+###############################################################################################################################################
+
+
 
 
