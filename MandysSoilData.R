@@ -265,9 +265,208 @@ Soils.F.Size[Soils.F.Size$F.Size>700,]
 
 # seems to be ok!
 
+
 ###############################################################################################################################################
 #
-#                                    Changing to explore the multI mode Cycles files
+#                                    Changing to explore the cycles.pbs.o24178598.o24178598 files to determine which soils are missing
+#
+###############################################################################################################################################
+
+str(Soils.F.Size)
+
+# From the cycles.pbs.o24178598.o24178598 file the first error comes "Error opening ./input/soils/153024.soil."
+
+# lets check if it is in the soil files directory
+
+"153024.soil" %in% Soils.F.Size$CyclesSoilsFromSSURGO_20201208.files
+
+#False... it is not there... Lets look into the US_corn_scenarios.txt file and see if we find more that are not in the soils files directory
+
+#To do that we need to read the US_corn_scenarios.txt into a dataframe in  R
+
+
+US_corn_scenarios<-read.table("..\\20201216_polysil_correct_soils\\20201216_polysil_correct_soils\\US_corn_scenarios.txt", header=T)
+
+# check it
+
+View(US_corn_scenarios)
+
+str(US_corn_scenarios)
+
+# Extract the information from the column SOIL_FILE using the strsplit function
+
+strsplit(US_corn_scenarios$SOIL_FILE,"/")
+
+
+# Use sapply to get the second element of each of the list elements of the output of  strsplit(US_corn_scenarios$SOIL_FILE,"/")
+
+sapply(strsplit(US_corn_scenarios$SOIL_FILE,"/"),function(x) x[2] )
+
+#Store the results in a new column on US_corn_scenarios
+
+US_corn_scenarios$Soils<-sapply(strsplit(US_corn_scenarios$SOIL_FILE,"/"),function(x) x[2] ) ;
+
+# Check which of the US_corn_scenarios$Soils are in the soils file list
+
+US_corn_scenarios$Soils %in% Soils.F.Size$CyclesSoilsFromSSURGO_20201208.files
+
+# It seems there are many that are in the list 
+which(US_corn_scenarios$Soils %in% Soils.F.Size$CyclesSoilsFromSSURGO_20201208.files)
+
+# how many ?
+
+length(which(US_corn_scenarios$Soils %in% Soils.F.Size$CyclesSoilsFromSSURGO_20201208.files))
+
+# [1] 402
+
+# Which are not in the list
+
+which(!US_corn_scenarios$Soils %in% Soils.F.Size$CyclesSoilsFromSSURGO_20201208.files)
+
+# How many are not in the list? 
+
+length(which(!US_corn_scenarios$Soils %in% Soils.F.Size$CyclesSoilsFromSSURGO_20201208.files))
+
+#[1] 2680
+
+# How many are in US_corn_scenarios$Soils?
+
+length(US_corn_scenarios$Soils)
+
+#[1] 3082
+
+
+# How many soils there are in CyclesSoilsFromSSURGO_20201208.files ?
+
+length(Soils.F.Size$CyclesSoilsFromSSURGO_20201208.files)
+
+#[1] 2608  interesting, there are may soils in the CyclesSoilsFromSSURGO_20201208.files but only 402 of those are in the US_corn_scenarios.txt 
+# very strange....
+
+# There may be repetitions so lets find the same but without repetitions using the unique function
+
+
+length(unique(Soils.F.Size$CyclesSoilsFromSSURGO_20201208.files))
+
+# #[1] 2608  all of the soils in the CyclesSoilsFromSSURGO_20201208 are unique. That is very encouraging
+
+
+# How about in the US_corn_scenarios.txt ?
+
+length(unique(US_corn_scenarios$Soils))
+
+# [1] 3069
+
+
+# so we have [1] 461 that are not in the US_corn_scenarios. Those could be the soils in the Missing soils file, we can check this later.
+
+# how many of the of the US_corn_scenarios soils are in the Missing soils?
+
+which(Missing_Soils_12_15_20.files %in% US_corn_scenarios$Soils)
+
+# lets check some of these
+
+Missing_Soils_12_15_20.files[1] %in% US_corn_scenarios$Soils
+
+Missing_Soils_12_15_20.files[10] %in% US_corn_scenarios$Soils
+
+# Lets check why there are 2608 soils from the  US_corn_scenarios not in the CyclesSoilsFromSSURGO_20201208.files
+
+which(!US_corn_scenarios$Soils %in% Soils.F.Size$CyclesSoilsFromSSURGO_20201208.files)
+
+
+head(US_corn_scenarios$Soils, 10)
+
+# [1] "344234.soil"  "1899741.soil" "158461.soil"  "343952.soil"  "348846.soil"  "146930.soil"  "345217.soil"  "2396841.soil" "348289.soil"  "3011838.soil"
+
+#lets check a few of these
+
+"344234.soil" %in% Soils.F.Size$CyclesSoilsFromSSURGO_20201208.files
+
+# [1] FALSE
+
+"1899741.soil" %in% Soils.F.Size$CyclesSoilsFromSSURGO_20201208.files
+
+# [1] FALSE
+
+# Lest check if the ones that are in are really in
+
+which(US_corn_scenarios$Soils %in% Soils.F.Size$CyclesSoilsFromSSURGO_20201208.files)
+
+# [1]   10   16   20   22   23   40   51   73   79   92
+
+#lets check a few of these
+
+US_corn_scenarios$Soils[c(10,   16 ,  20 ,  22 ,  23  , 40 ,  51  , 73  , 79 ,  92)]
+
+# [1] "3011838.soil" "347753.soil"  "2587206.soil" "348278.soil"  "2567011.soil" "2799205.soil" "2566782.soil" "2579712.soil" "2521602.soil" "1713536.soil"
+
+"3011838.soil" %in% Soils.F.Size$CyclesSoilsFromSSURGO_20201208.files
+
+# [1] TRUE
+
+"347753.soil" %in% Soils.F.Size$CyclesSoilsFromSSURGO_20201208.files
+
+#[1] TRUE
+
+"1713536.soil" %in% Soils.F.Size$CyclesSoilsFromSSURGO_20201208.files 
+
+# [1] TRUE
+
+
+
+#  we have 461 that are not in the US_corn_scenarios
+
+# how many of the of the US_corn_scenarios soils are in the Missing soils?
+
+which(Missing_Soils_12_15_20.files %in% US_corn_scenarios$Soils)
+
+length(which(Missing_Soils_12_15_20.files %in% US_corn_scenarios$Soils))
+
+# [1] 36
+
+# lets check some of these
+
+Missing_Soils_12_15_20.files[1] %in% US_corn_scenarios$Soils
+
+Missing_Soils_12_15_20.files[10] %in% US_corn_scenarios$Soils
+
+# There are many soils NOT in the soils file that are called by the US_corn_scenarios.txt 
+
+# Lets start working with what we have. Let stick to the simulations in the  US_corn_scenarios.txt  for which we have the soils file
+
+
+US_corn_scenarios.with.Soils<-US_corn_scenarios[which(US_corn_scenarios$Soils %in% Soils.F.Size$CyclesSoilsFromSSURGO_20201208.files),];
+
+# Check it
+
+View(US_corn_scenarios.with.Soils)
+
+## Write it in the format the multi Cycles can read it
+
+## remove the column Soils we created
+within(US_corn_scenarios.with.Soils, rm("Soils"))
+
+write.table(within(US_corn_scenarios.with.Soils, rm("Soils")), file="..\\20201216_polysil_correct_soils\\20201216_polysil_correct_soils\\US_corn_scenarios_with_Soils.txt", sep=c("\t\t" ),quote=F,row.names = F)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###############################################################################################################################################
+#
+#                                 
 #
 ###############################################################################################################################################
 
