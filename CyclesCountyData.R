@@ -72,7 +72,7 @@ ogrInfo("C:\\Felipe\\Students Projects\\Mandy's Project\\2021\\CountyShapefiles\
 USCounties<-readOGR("C:\\Felipe\\Students Projects\\Mandy's Project\\2021\\CountyShapefiles\\tl_2019_us_county\\tl_2019_us_county.shp") ;
 
 
-plot(USCounties)
+#plot(USCounties)
 
 
 
@@ -200,21 +200,25 @@ Res.Max.Grain.3<-merge(CountyPTs_12_02_20@data[-which(duplicated(CountyPTs_12_02
 
 str(Res.Max.Grain.3)
 
+#there are two GEOID duplicates
 
-Res.Max.Grain.4<-merge(USCounties@data,Res.Max.Grain.3, by.x= "GEOID",by.y="GEOID", all.x=T );
+
+which(duplicated(Res.Max.Grain.3$GEOID))
+
+# remove the duplicates
+
+Res.Max.Grain.4<-Res.Max.Grain.3[-which(duplicated(Res.Max.Grain.3$GEOID)),] ;
 
 str(Res.Max.Grain.4)
+
+Res.Max.Grain.5<-sp::merge(USCounties[],Res.Max.Grain.4, by.x= "GEOID",by.y="GEOID", all.x=T );
+
+str(Res.Max.Grain.5)
 
 ## Remove duplicates
 
 
-Res.Max.Grain.5<-Res.Max.Grain.4[-which(duplicated(Res.Max.Grain.4$GEOID)),c("GEOID", "STATEFP"  ,"NAME" , "SIM_CODE" , "MAX_GRAIN_YIELD")] ;
-
-str(Res.Max.Grain.5)
-
-USCounties@data<-Res.Max.Grain.5 ;
-
-writeOGR(USCounties, "C:\\Felipe\\Students Projects\\Mandy's Project\\2021\\GeneratedMapsShapeFiles\\Max_Grain_4.shp", layer="Max_Grain_4", driver="ESRI Shapefile" ) ;
+writeOGR(Res.Max.Grain.5, "C:\\Felipe\\Students Projects\\Mandy's Project\\2021\\GeneratedMapsShapeFiles\\Max_Grain_4.shp", layer="Max_Grain_4", driver="ESRI Shapefile" ) ;
 
 
 ### Plot Maximum Forage Yield across counties
@@ -233,18 +237,22 @@ Res.Max.Forage.3<-merge(CountyPTs_12_02_20@data[-which(duplicated(CountyPTs_12_0
 
 str(Res.Max.Forage.3)
 
-Res.Max.Forage.4<-merge(USCounties@data,Res.Max.Forage.3, by.x= "GEOID", by.y="GEOID", all.x=T );
+#there are two GEOID duplicates
+
+which(duplicated(Res.Max.Forage.3$GEOID))
+
+# remove the duplicates
+
+Res.Max.Forage.4<-Res.Max.Forage.3[-which(duplicated(Res.Max.Forage.3$GEOID)),] ;
 
 str(Res.Max.Forage.4)
 
-## Remove duplicates
+Res.Max.Forage.5<-sp::merge(USCounties[],Res.Max.Forage.4, by.x= "GEOID",by.y="GEOID", all.x=T );
+
+str(Res.Max.Forage.5)
 
 
-Res.Max.Forage.5<-Res.Max.Forage.4[-which(duplicated(Res.Max.Forage.4$GEOID)), c("GEOID", "STATEFP"  ,"NAME" , "SIM_CODE.x" , "MAX_FORAGE_YIELD")] ;# 
-
-USCounties@data<-Res.Max.Forage.5 ;
-
-writeOGR(USCounties, "C:\\Felipe\\Students Projects\\Mandy's Project\\2021\\GeneratedMapsShapeFiles\\Max_FORAGE_4.shp", layer="Max_FORAGE", driver="ESRI Shapefile" ) ;
+writeOGR(Res.Max.Forage.5, "C:\\Felipe\\Students Projects\\Mandy's Project\\2021\\GeneratedMapsShapeFiles\\Max_FORAGE_4.shp", layer="Max_FORAGE", driver="ESRI Shapefile" ) ;
 
 
 # Plot Yield across counties for year 2000
