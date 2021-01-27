@@ -123,10 +123,10 @@ ControlFile$SIM_CODE %in% CountyPTs_12_02_20@data$SIM_CODE
 ### Load the files with the simulation results
 
 
-read.xlsx("C:\\Felipe\\Students Projects\\Mandy's Project\\2021\\US_corn_scenarios_summary_POLY_totalYields.xlsx", sheet="POLY_total__harvested_yields", startRow = 1, colNames = F, rowNames = F, rows=c(seq(1,81)), cols=c(1,2)  )
+read.xlsx("C:\\Felipe\\Students Projects\\Mandy's Project\\2021\\Re _Modeling_Outputs\\Poly_summary.xlsx", sheet="Poly_biomass", startRow = 1, colNames = F, rowNames = F, rows=c(seq(1,81)), cols=c(1,2)  )
 
 
-RES.NAMES<-read.xlsx("C:\\Felipe\\Students Projects\\Mandy's Project\\2021\\US_corn_scenarios_summary_POLY_totalYields_FM.xlsx", sheet="POLY_total__harvested_yields", startRow = 1, colNames = F, rowNames = F, rows= c(1,2,3)) ;
+RES.NAMES<-read.xlsx("C:\\Felipe\\Students Projects\\Mandy's Project\\2021\\Re _Modeling_Outputs\\Poly_summary.xlsx", sheet="Poly_biomass", startRow = 1, colNames = F, rowNames = F, rows= c(1,2,3)) ;
 
 # View(POLY_total__harvested_yields.1)
 
@@ -134,13 +134,13 @@ RES.NAMES<-read.xlsx("C:\\Felipe\\Students Projects\\Mandy's Project\\2021\\US_c
 
 
 
-Res.YEAR<-read.xlsx("C:\\Felipe\\Students Projects\\Mandy's Project\\2021\\US_corn_scenarios_summary_POLY_totalYields_FM.xlsx", sheet="POLY_total__harvested_yields", startRow = 4, colNames = F, rowNames = F, cols=c(1)) ;
+Res.YEAR<-read.xlsx("C:\\Felipe\\Students Projects\\Mandy's Project\\2021\\Re _Modeling_Outputs\\Poly_summary.xlsx", sheet="Poly_biomass", startRow = 4, colNames = F, rowNames = F, cols=c(1)) ;
 
 names(Res.YEAR)<-c("YEAR") ;
 
 
 
-Res.CROP<-read.xlsx("C:\\Felipe\\Students Projects\\Mandy's Project\\2021\\US_corn_scenarios_summary_POLY_totalYields_FM.xlsx", sheet="POLY_total__harvested_yields", startRow = 4, colNames = F, rowNames = F, cols=c(2)) ;
+Res.CROP<-read.xlsx("C:\\Felipe\\Students Projects\\Mandy's Project\\2021\\Re _Modeling_Outputs\\Poly_summary.xlsx", sheet="Poly_biomass", startRow = 4, colNames = F, rowNames = F, cols=c(2)) ;
 
 Res.CROP[,1]<-gsub(" ", "", Res.CROP[,1] ) ;
 
@@ -151,7 +151,7 @@ Res.G_F_YIELD<-gsub(" ", "", RES.NAMES[2,seq(from = 3, to = dim.data.frame(RES.N
 
 Res.SIM_CODE<-gsub(" ", "", RES.NAMES[1,seq(from = 3, to = dim.data.frame(RES.NAMES)[2], by=1)]);
 
-Res.Data<-read.xlsx("C:\\Felipe\\Students Projects\\Mandy's Project\\2021\\US_corn_scenarios_summary_POLY_totalYields_FM.xlsx", sheet="POLY_total__harvested_yields", startRow = 4, colNames = F, rowNames = F, cols=seq(from = 3, to = dim.data.frame(RES.NAMES)[2], by=1)) ;
+Res.Data<-read.xlsx("C:\\Felipe\\Students Projects\\Mandy's Project\\2021\\Re _Modeling_Outputs\\Poly_summary.xlsx", sheet="Poly_biomass", startRow = 4, colNames = F, rowNames = F, cols=seq(from = 3, to = dim.data.frame(RES.NAMES)[2], by=1)) ;
   
 
 SMIULATIONS<-unique(unlist(Res.SIM_CODE))
@@ -218,7 +218,7 @@ str(Res.Max.Grain.5)
 ## Remove duplicates
 
 
-writeOGR(Res.Max.Grain.5, "C:\\Felipe\\Students Projects\\Mandy's Project\\2021\\GeneratedMapsShapeFiles\\Max_Grain_4.shp", layer="Max_Grain_4", driver="ESRI Shapefile" ) ;
+writeOGR(Res.Max.Grain.5, "C:\\Felipe\\Students Projects\\Mandy's Project\\2021\\GeneratedMapsShapeFiles\\Max_Grain_4B.shp", layer="Max_Grain_4", driver="ESRI Shapefile" ) ;
 
 
 ### Plot Maximum Forage Yield across counties
