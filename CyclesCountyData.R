@@ -263,8 +263,41 @@ str(Res.SD.Forage.5)
 writeOGR(Res.SD.Forage.5, "C:\\Felipe\\Students Projects\\Mandy's Project\\2021\\GeneratedMapsShapeFiles\\Poly_std.shp", layer="Poly_std", driver="ESRI Shapefile" ) ;
 
 
+### Plot Coefficient of variation of Total Forage Yield (grain + forage) across counties for the Poly culture simulations
+
+str(Res.SD.Forage.2)
+
+str(Res.avg.Forage.2)
+
+Res.Poly.CV<-merge(Res.avg.Forage.2,Res.SD.Forage.2, by= "SIM_CODE")  ;
+
+str(Res.Poly.CV)
+
+Res.Poly.CV$CV.ForageYield<-Res.Poly.CV$SD_FORAGE_YIELD/Res.Poly.CV$AVG_FORAGE_YIELD  ;
 
 
+
+
+Res.Poly.CV.1<-merge(CountyPTs_12_02_20@data[-which(duplicated(CountyPTs_12_02_20@data$SIM_CODE)),],Res.Poly.CV) [,c("GEOID","SIM_CODE","AVG_FORAGE_YIELD" ,"SD_FORAGE_YIELD",  "CV.ForageYield")] ;
+
+str(Res.Poly.CV.1)
+
+#there are two GEOID duplicates
+
+which(duplicated(Res.Poly.CV.1$GEOID))
+
+# remove the duplicates
+
+
+Res.Poly.CV.2<-Res.Poly.CV.1[-which(duplicated(Res.Poly.CV.1$GEOID)),] ;
+
+str(Res.Poly.CV.2)
+
+Res.Poly.CV.3<-sp::merge(USCounties,Res.Poly.CV.2 ,  by.x= "GEOID",by.y="GEOID", all.x=T );
+
+str(Res.Poly.CV.3)
+
+writeOGR(Res.Poly.CV.3, "C:\\Felipe\\Students Projects\\Mandy's Project\\2021\\GeneratedMapsShapeFiles\\Poly_CV.shp", layer="Poly_CV", driver="ESRI Shapefile" ) ;
 
 ###############################################################################################################
 #                            Load the files with the simulation results for the Sorghum
@@ -290,7 +323,7 @@ names(Res.YEAR.SORG)<-c("YEAR") ;
 
 Res.CROP.SORG<-read.xlsx("C:\\Felipe\\Students Projects\\Mandy's Project\\2021\\Re _Modeling_Outputs\\Sorghum_summary.xlsx", sheet="Sorghum_biomass", startRow = 4, colNames = F, rowNames = F, cols=c(2)) ;
 
-Res.CROP.SORG[,1]<-gsub(" ", "", Res.CROP[,1] ) ;
+Res.CROP.SORG[,1]<-gsub(" ", "", Res.CROP.SORG[,1] ) ;
 
 names(Res.CROP.SORG)<-c("CROP") ;
 
@@ -331,7 +364,7 @@ for (i in SMIULATIONS.SORG ){
 
 ### Plot Mean (average) Total Forage Yield(Grain + forage)  across counties
 
-Res.avg.SORG.1<-sapply(Mapping.Data, function(x) mean(x[,c("GRAINYIELD")] + x[,c("FORAGEYIELD")])) ;  
+Res.avg.SORG.1<-sapply(Mapping.Data.SORG, function(x) mean(x[,c("GRAINYIELD")] + x[,c("FORAGEYIELD")])) ;  
 
 Res.avg.SORG.2<-data.frame(names(Res.avg.SORG.1),unname(Res.avg.SORG.1)) ;
 
@@ -399,6 +432,44 @@ str(Res.SD.SORG.5)
 
 
 writeOGR(Res.SD.SORG.5, "C:\\Felipe\\Students Projects\\Mandy's Project\\2021\\GeneratedMapsShapeFiles\\SORGHUM_std.shp", layer="SORGHUM_std", driver="ESRI Shapefile" ) ;
+
+
+### Plot Coefficient of variation of Total Forage Yield (grain + forage) across counties for the Sorghum simulations
+
+str(Res.SD.SORG.2)
+
+str(Res.avg.SORG.2)
+
+Res.SORG.CV<-merge(Res.avg.SORG.2,Res.SD.SORG.2, by= "SIM_CODE")  ;
+
+str(Res.SORG.CV)
+
+Res.SORG.CV$CV.ForageYield<-Res.SORG.CV$SD_FORAGE_YIELD/Res.SORG.CV$AVG_FORAGE_YIELD  ;
+
+
+
+Res.SORG.CV.1<-merge(CountyPTs_12_02_20@data[-which(duplicated(CountyPTs_12_02_20@data$SIM_CODE)),],Res.SORG.CV) [,c("GEOID","SIM_CODE","AVG_FORAGE_YIELD" ,"SD_FORAGE_YIELD",  "CV.ForageYield")] ;
+
+str(Res.SORG.CV.1)
+
+#there are two GEOID duplicates
+
+which(duplicated(Res.SORG.CV.1$GEOID))
+
+# remove the duplicates
+
+
+Res.SORG.CV.2<-Res.SORG.CV.1[-which(duplicated(Res.SORG.CV.1$GEOID)),] ;
+
+str(Res.SORG.CV.2)
+
+Res.SORG.CV.3<-sp::merge(USCounties,Res.SORG.CV.2 ,  by.x= "GEOID",by.y="GEOID", all.x=T );
+
+str(Res.SORG.CV.3)
+
+writeOGR(Res.SORG.CV.3, "C:\\Felipe\\Students Projects\\Mandy's Project\\2021\\GeneratedMapsShapeFiles\\SORGHUM_CV.shp", layer="SORGHUM_CV", driver="ESRI Shapefile" ) ;
+
+
 
 
 
@@ -537,17 +608,65 @@ str(Res.SD.MAIZE.5)
 writeOGR(Res.SD.MAIZE.5, "C:\\Felipe\\Students Projects\\Mandy's Project\\2021\\GeneratedMapsShapeFiles\\MAIZE_std.shp", layer="MAIZE_std", driver="ESRI Shapefile" ) ;
 
 
+
+
+### Plot Coefficient of variation of Total Forage Yield (grain + forage) across counties for the Maize  simulations
+
+str(Res.SD.MAIZE.2)
+
+str(Res.avg.MAIZE.2)
+
+Res.MAIZE.CV<-merge(Res.avg.MAIZE.2,Res.SD.MAIZE.2, by= "SIM_CODE")  ;
+
+str(Res.MAIZE.CV)
+
+Res.MAIZE.CV$CV.ForageYield<-Res.MAIZE.CV$SD_FORAGE_YIELD/Res.MAIZE.CV$AVG_FORAGE_YIELD  ;
+
+Res.MAIZE.CV.1<-merge(CountyPTs_12_02_20@data[-which(duplicated(CountyPTs_12_02_20@data$SIM_CODE)),],Res.MAIZE.CV) [,c("GEOID","SIM_CODE","AVG_FORAGE_YIELD" ,"SD_FORAGE_YIELD",  "CV.ForageYield")] ;
+
+str(Res.MAIZE.CV.1)
+
+#there are two GEOID duplicates
+
+which(duplicated(Res.MAIZE.CV.1$GEOID))
+
+# remove the duplicates
+
+
+Res.MAIZE.CV.2<-Res.MAIZE.CV.1[-which(duplicated(Res.MAIZE.CV.1$GEOID)),] ;
+
+str(Res.MAIZE.CV.2)
+
+Res.MAIZE.CV.3<-sp::merge(USCounties,Res.MAIZE.CV.2 ,  by.x= "GEOID",by.y="GEOID", all.x=T );
+
+str(Res.MAIZE.CV.3)
+
+writeOGR(Res.MAIZE.CV.3, "C:\\Felipe\\Students Projects\\Mandy's Project\\2021\\GeneratedMapsShapeFiles\\MAIZE_CV.shp", layer="MAIZE_CV", driver="ESRI Shapefile" ) ;
+
+
+
+
+
+
+
+
+
 ###############################################################################################################
-#                           Calculate the ratio of POLY to MAIZE from the simulation results for the Maize 
+#                           Calculate the ratio of POLY to MAIZE from the simulation results 
 ###############################################################################################################
 
-str(Res.avg.Forage.3)
+str(Res.Poly.CV.2)
 
-str(Res.avg.MAIZE.3)
+str(Res.SORG.CV.2)
 
-str(Res.avg.SORG.3)
+str(Res.MAIZE.CV.2)
 
-Res.POLY_MAIZE<-merge(Res.avg.Forage.3,Res.avg.MAIZE.3, by="SIM_CODE" ) ;
+
+
+
+Res.POLY_MAIZE<-merge(Res.Poly.CV.2,Res.MAIZE.CV.2, by="SIM_CODE") ;
+
+str(Res.POLY_MAIZE)
 
 #are there "SIM_CODE" duplicates?
 
@@ -559,15 +678,49 @@ which(duplicated(Res.POLY_MAIZE$GEOID.x))
 
 which(duplicated(Res.POLY_MAIZE$GEOID.y))
 
-Res.POLY_MAIZE.4<-Res.POLY_MAIZE[-which(duplicated(Res.POLY_MAIZE$GEOID.x)),]  ;
 
-names(Res.POLY_MAIZE.4)[c(3,5)]<-c("POLY" , "MAIZE")
+str(Res.POLY_MAIZE)
 
-Res.POLY_MAIZE.4$R_POLY_MAIZE<-Res.POLY_MAIZE.4$POLY/Res.POLY_MAIZE.4$MAIZE ;
-
-
-Res.POLY_MAIZE.5<-sp::merge(USCounties[],Res.POLY_MAIZE.4, by.x= "GEOID",by.y="GEOID.x", all.x=T );
+Res.POLY_MAIZE$R_POLY_MAIZE_CV<-Res.POLY_MAIZE$CV.ForageYield.x/Res.POLY_MAIZE$CV.ForageYield.y ;
 
 
-writeOGR(Res.POLY_MAIZE.5, "C:\\Felipe\\Students Projects\\Mandy's Project\\2021\\GeneratedMapsShapeFiles\\Ratio_POLY_MAIZE.shp", layer="Ratio_POLY_MAIZE", driver="ESRI Shapefile" ) ;
+Res.POLY_MAIZE.2<-sp::merge(USCounties[],Res.POLY_MAIZE, by.x= "GEOID",by.y="GEOID.x", all.x=T );
+
+
+writeOGR(Res.POLY_MAIZE.2, "C:\\Felipe\\Students Projects\\Mandy's Project\\2021\\GeneratedMapsShapeFiles\\Ratio_POLY_MAIZE_CV.shp", layer="CV_Ratio_POLY_MAIZE", driver="ESRI Shapefile" ) ;
+
+
+###############################################################################################################
+#                           Calculate the ratio of SORGHUM to MAIZE from the simulation results 
+###############################################################################################################
+
+
+Res.SORG_MAIZE<-merge(Res.SORG.CV.2,Res.MAIZE.CV.2, by="SIM_CODE") ;
+
+str(Res.SORG_MAIZE)
+
+#are there "SIM_CODE" duplicates?
+
+which(duplicated(Res.SORG_MAIZE$SIM_CODE))
+
+#are there "GEOID" duplicates?
+
+which(duplicated(Res.SORG_MAIZE$GEOID.x))
+
+which(duplicated(Res.SORG_MAIZE$GEOID.y))
+
+
+Res.SORG_MAIZE$R_SORG_MAIZE_CV<-Res.SORG_MAIZE$CV.ForageYield.x/Res.SORG_MAIZE$CV.ForageYield.y ;
+
+Res.SORG_MAIZE$R_SORG_MAIZE_B<-Res.SORG_MAIZE$AVG_FORAGE_YIELD.x/Res.SORG_MAIZE$AVG_FORAGE_YIELD.y ;
+
+
+Res.SORG_MAIZE.2<-sp::merge(USCounties[],Res.SORG_MAIZE, by.x= "GEOID",by.y="GEOID.x", all.x=T );
+
+
+writeOGR(Res.SORG_MAIZE.2, "C:\\Felipe\\Students Projects\\Mandy's Project\\2021\\GeneratedMapsShapeFiles\\Ratio_SORG_MAIZE.shp", layer="CV_Ratio_SORG_MAIZE", driver="ESRI Shapefile" ) ;
+
+
+
+
 
